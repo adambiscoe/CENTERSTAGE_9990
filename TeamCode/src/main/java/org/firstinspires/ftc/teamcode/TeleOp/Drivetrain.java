@@ -4,10 +4,10 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 public class Drivetrain extends LinearOpMode {
@@ -24,6 +24,9 @@ public class Drivetrain extends LinearOpMode {
     public CRServo rightWheel;
     public CRServo leftWheel;
     public CRServo droneLauncher;
+    public DcMotorEx rightOdo;
+    public DcMotorEx leftOdo;
+    public DcMotorEx midOdo;
 
 
     HardwareMap hwMap;
@@ -59,6 +62,10 @@ public class Drivetrain extends LinearOpMode {
         claw = hwMap.crservo.get("claw");
         rightWheel = hwMap.crservo.get("rightwheel");
         leftWheel = hwMap.crservo.get("leftwheel");
+        rightOdo = hwMap.get(DcMotorEx.class, "rightodo");
+        rightOdo.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftOdo = hwMap.get(DcMotorEx.class, "amtop");
+        midOdo = hwMap.get(DcMotorEx.class, "middleodo");
 
 
 
@@ -165,12 +172,13 @@ public class Drivetrain extends LinearOpMode {
         //**DO NOT CHANGE
         if (gamepad1.y) {
             //scoop up
-            ElapsedTime runtime = new ElapsedTime();
+            //ElapsedTime runtime = new ElapsedTime();
             leftScoop.setPower(-.8);
             rightScoop.setPower(.8);
+            leftWheel.setPower(-1);
 
             rightWheel.setPower(1);
-            leftWheel.setPower(-1);
+
 
         }
         if (gamepad2.b) {
@@ -181,6 +189,19 @@ public class Drivetrain extends LinearOpMode {
             claw.setPower(-.6);
             //close
         }
+        if (gamepad1.b){
+                //spins backwards
+                 leftWheel.setPower(-1);
+                rightWheel.setPower(1);
+
+            }
+        else if (gamepad1.x){
+                //end
+             leftWheel.setPower(0);
+                rightWheel.setPower(0);
+
+            }
+
 
 
         //move arm back
@@ -208,19 +229,27 @@ public class Drivetrain extends LinearOpMode {
             wrist.setPower(-1);
         }
         if (gamepad1.back) {
-            double hang = .8;
+            double hang = 1;
             armmotorTop.setPower(hang);
             armmotorBottom.setPower(hang);
             sleep(100000);
+            /*
+            while (gamepad1.back){
+
+            }
+
+            //sleep(100000);
             if (isStopRequested()){
                 while (true){
                     armmotorTop.setPower(hang);
                     armmotorBottom.setPower(hang);
-                    hang = hang - .00005;
+                    hang = hang - .00000005;
                     if (hang == 0){
                         break;
                     }
                 }
+
+             */
 
 
             }
@@ -278,4 +307,3 @@ public class Drivetrain extends LinearOpMode {
          */
 
     }
-}

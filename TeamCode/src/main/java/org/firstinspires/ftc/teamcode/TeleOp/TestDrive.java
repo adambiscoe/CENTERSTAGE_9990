@@ -13,16 +13,14 @@ public class TestDrive extends LinearOpMode {
         while (opModeIsActive()){
             //this is now working
             //drivetrain.claw.setPower(.5);
-            if (gamepad1.b){
-                //spins backwards
-                drivetrain.rightWheel.setPower(1);
-                drivetrain.leftWheel.setPower(-1);
-            }
-            if (gamepad1.x){
-                //end
-                drivetrain.rightWheel.setPower(0);
-                drivetrain.leftWheel.setPower(0);
-            }
+            telemetry.addData("rightodo", drivetrain.rightOdo.getCurrentPosition());
+            telemetry.addData("leftodo", drivetrain.leftOdo.getCurrentPosition());
+            telemetry.addData("midodo", drivetrain.midOdo.getCurrentPosition());
+            telemetry.update();
+
+
+
+
             drivetrain.armScoopMovement(gamepad1, gamepad2);
             double lsy = gamepad1.left_stick_y;
             double lsx = gamepad1.left_stick_x;
