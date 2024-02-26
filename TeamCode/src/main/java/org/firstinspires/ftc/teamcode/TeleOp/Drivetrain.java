@@ -27,6 +27,9 @@ public class Drivetrain extends LinearOpMode {
     public DcMotorEx rightOdo;
     public DcMotorEx leftOdo;
     public DcMotorEx midOdo;
+    public double Kp = 8.5;
+    public double Ki = 0;
+    public double Kd = 0;
 
 
     HardwareMap hwMap;
@@ -176,10 +179,7 @@ public class Drivetrain extends LinearOpMode {
             leftScoop.setPower(-.8);
             rightScoop.setPower(.8);
             leftWheel.setPower(-1);
-
             rightWheel.setPower(1);
-
-
         }
         if (gamepad2.b) {
             //grab open
@@ -229,81 +229,26 @@ public class Drivetrain extends LinearOpMode {
             wrist.setPower(-1);
         }
         if (gamepad1.back) {
-            double hang = 1;
+            double hang = 1.5;
             armmotorTop.setPower(hang);
             armmotorBottom.setPower(hang);
-            sleep(100000);
-            /*
-            while (gamepad1.back){
+            sleep(10000000);
 
-            }
-
-            //sleep(100000);
-            if (isStopRequested()){
-                while (true){
-                    armmotorTop.setPower(hang);
-                    armmotorBottom.setPower(hang);
-                    hang = hang - .00000005;
-                    if (hang == 0){
-                        break;
-                    }
-                }
-
-             */
 
 
             }
         }
-        /*
-        if (gamepad2.dpad_down){
-            claw.setPower(.8);
-            wrist.setPower(-.75);
-            armmotorBottom.setPower(.6);
-            armmotorTop.setPower(.3);
-            sleep(750);
-            armmotorBottom.setPower(0);
-            armmotorTop.setPower(0);
-            claw.setPower(-.8);
-            sleep(1000);
-            claw.setPower(-.4);
-        }
-        */
-        /*
-        if (gamepad2.dpad_up){
-            armmotorBottom.setPower(-.6);
-            armmotorTop.setPower(-.3);okm
-            sleep(700);
-            armmotorBottom.setPower(0);
-            armmotorTop.setPower(0);
-            wrist.setPower(.75);
-        }
-        */
-        /*
-        if (gamepad2.dpad_right){
-            //claw open
-            // wrist down
-            //arm down
-            claw.setPower(1);
-            sleep(1000);
-            wrist.setPower(-.75);
-            sleep(500);
-            armmotorBottom.setPower(.9);
-            armmotorTop.setPower(.45);
-            sleep(500);
-            armmotorBottom.setPower(0);
-            armmotorTop.setPower(0);
-        }
-        /*
-    }
+
 
 
     }
 
 
-}
-}
-}
 
-         */
 
-    }
+
+
+
+
+
+

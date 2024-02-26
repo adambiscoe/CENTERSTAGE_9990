@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.RoadRunner.drive;
 
+import static java.lang.Thread.sleep;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -18,6 +20,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationCon
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -56,7 +59,21 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private TrajectoryFollower follower;
 
+    public static CRServo claw;
+    private CRServo wrist;
+    public DcMotor armmotorTop;
+    public DcMotor armmotorBottom;
+    private CRServo leftScoop;
+    private CRServo rightScoop;
+    private CRServo rightWheel;
+    private CRServo leftWheel;
+
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
+
+
+
+    //CONFIGURE ARM AND ETC
+
     private List<DcMotorEx> motors;
 
     private IMU imu;
@@ -92,6 +109,20 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear = hardwareMap.get(DcMotorEx.class, "backleft");
         rightRear = hardwareMap.get(DcMotorEx.class, "backright");
         rightFront = hardwareMap.get(DcMotorEx.class, "frontright");
+
+        // other configs
+
+        leftScoop = hardwareMap.crservo.get("leftScoop");
+        rightScoop = hardwareMap.crservo.get("rightScoop");
+        armmotorBottom = hardwareMap.dcMotor.get("ambottom");
+        armmotorTop = hardwareMap.dcMotor.get("amtop");
+        wrist = hardwareMap.crservo.get("wrist");
+        claw = hardwareMap.crservo.get("claw");
+        armmotorTop.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armmotorBottom.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armmotorTop.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armmotorBottom.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -303,4 +334,63 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
         return new ProfileAccelerationConstraint(maxAccel);
     }
+    public void armUp() throws InterruptedException {
+        clawPropClose();
+        scoopDown();
+        sleep(1000);
+        armmotorBottom.setPower(-.6);
+        armmotorTop.setPower(-.3);
+        wrist.setPower(.75);
+        sleep(850);
+        armmotorBottom.setPower(0);
+        armmotorTop.setPower(0);
+
+        sleep(500);
+        //may need this next line
+        //moveEncoder(4, .5);
+        clawOpen();
+        sleep(500);
+    }
+    public void armDown() throws InterruptedException {
+        //claw.setPower(1);
+        //sleep(2000);
+        scoopDown();
+        sleep(1000);
+        wrist.setPower(-.75);
+        armmotorBottom.setPower(.8);
+        armmotorTop.setPower(.4);
+        sleep(575);
+        armmotorBottom.setPower(0);
+        armmotorTop.setPower(0);
+        //claw.close();
+        scoopUp();
+        sleep(1000);
+    }
+    public void scoopUp() {
+        //KEEP RIGHT SCOOP POSITIVE AND LEFT NEGATIVE
+        //**DO NOT CHANGE
+        //scoop up
+        leftScoop.setPower(-.6);
+        rightScoop.setPower(.6);
+    }
+
+    public void clawOpen(){
+        claw.setPower(1);
+    }
+    public void clawPropOpen(){
+        claw.setPower(.6);
+    }
+    public void clawPropClose(){
+        claw.setPower(-.8);
+    }
+    public void scoopDown() {
+        //scoop down
+        //KEEP LEFT SCOOP POSITIVE AND RIGHT NEGATIVE
+        //**DO NOT CHANGE
+        leftScoop.setPower(.8);
+        rightScoop.setPower(-.8);
+    }
+
+
+
 }

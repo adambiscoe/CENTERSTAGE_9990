@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AutonomousNew;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.OpenCV.LocationID;
 import org.firstinspires.ftc.teamcode.OpenCV.OTAT2;
 import org.firstinspires.ftc.vision.VisionPortal;
 
+@Disabled
 @Autonomous
 public class FarRight extends LinearOpMode {
     private String choice;

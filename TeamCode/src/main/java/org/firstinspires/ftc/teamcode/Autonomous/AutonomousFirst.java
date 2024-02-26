@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -10,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
+@Disabled
 @Autonomous
 
 public class AutonomousFirst extends LinearOpMode {
@@ -309,7 +310,6 @@ public class AutonomousFirst extends LinearOpMode {
         sleep(575);
         armmotorBottom.setPower(0);
         armmotorTop.setPower(0);
-
         claw.close();
         scoopUp();
         sleep(2000);
